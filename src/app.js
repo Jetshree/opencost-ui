@@ -3,4 +3,4 @@ import Routes from "./route";
 
 const root = createRoot(document.getElementById("app"));
 root.render(<Routes />);
-// testing lighthouse ci
+// testing Lighthouse ci 
