@@ -39,6 +39,14 @@ jobs:
       - name: Ensure jq is installed
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Start server
+        run: npx serve -s dist &
+        # Update 'dist' if your static build output is different
+
+      - name: Wait for server to start
+        run: npx wait-on http://localhost:3000
+        # Update the port if your server runs elsewhere
+
       - name: Run Lighthouse CI
         id: lighthouse
         run: npx @lhci/cli@0.14.x autorun --config=./lighthouserc.json
@@ -49,15 +57,12 @@ jobs:
         run: |
           REPORT_DIR=".lighthouseci"
           MANIFEST="$REPORT_DIR/manifest.json"
-
           if [ -f "$MANIFEST" ]; then
             PERF_SCORE=$(jq '[.[].summary.performance] | (add / length * 100) | floor' "$MANIFEST")
             A11Y_SCORE=$(jq '[.[].summary.accessibility] | (add / length * 100) | floor' "$MANIFEST")
             BP_SCORE=$(jq '[.[].summary["best-practices"]] | (add / length * 100) | floor' "$MANIFEST")
             SEO_SCORE=$(jq '[.[].summary.seo] | (add / length * 100) | floor' "$MANIFEST")
-
             REPORT_URL=$(jq -r '.[0].links.publicUrl // "Not Available"' "$MANIFEST")
-
             echo "PERF_SCORE=$PERF_SCORE" >> $GITHUB_OUTPUT
             echo "A11Y_SCORE=$A11Y_SCORE" >> $GITHUB_OUTPUT
             echo "BP_SCORE=$BP_SCORE" >> $GITHUB_OUTPUT
@@ -87,7 +92,6 @@ jobs:
               echo "🔴"
             fi
           }
-
           echo "PERF_EMOJI=$(get_emoji '${{ steps.parse.outputs.PERF_SCORE }}')" >> $GITHUB_OUTPUT
           echo "A11Y_EMOJI=$(get_emoji '${{ steps.parse.outputs.A11Y_SCORE }}')" >> $GITHUB_OUTPUT
           echo "BP_EMOJI=$(get_emoji '${{ steps.parse.outputs.BP_SCORE }}')" >> $GITHUB_OUTPUT

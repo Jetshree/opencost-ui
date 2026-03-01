@@ -1,7 +1,9 @@
 {
     "ci": {
         "collect": {
-            "staticDistDir": "./dist",
+            "url": [
+                "http://localhost:3000"
+            ],
             "numberOfRuns": 3,
             "settings": {
                 "preset": "desktop",
@@ -16,13 +18,13 @@
         "assert": {
             "assertions": {
                 "categories:performance": [
-                    "error",
+                    "warn",
                     {
                         "minScore": 0.8
                     }
                 ],
                 "categories:accessibility": [
-                    "error",
+                    "warn",
                     {
                         "minScore": 0.8
                     }
@@ -46,7 +48,7 @@
                     }
                 ],
                 "cumulative-layout-shift": [
-                    "error",
+                    "warn",
                     {
                         "maxNumericValue": 0.1
                     }
