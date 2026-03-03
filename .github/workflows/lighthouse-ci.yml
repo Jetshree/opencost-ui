@@ -39,14 +39,6 @@ jobs:
       - name: Ensure jq is installed
         run: sudo apt-get update && sudo apt-get install -y jq
 
-      - name: Start server
-        run: npx serve -s dist &
-        # Update 'dist' if your static build output is different
-
-      - name: Wait for server to start
-        run: npx wait-on http://localhost:3000
-        # Update the port if your server runs elsewhere
-
       - name: Run Lighthouse CI
         id: lighthouse
         run: npx @lhci/cli@0.14.x autorun --config=./lighthouserc.json
