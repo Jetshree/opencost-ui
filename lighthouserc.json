@@ -5,11 +5,10 @@
                 "http://localhost:3000/"
             ],
             "numberOfRuns": 3,
-            "staticDistDir": "",
             "settings": {
                 "chromeFlags": "--no-sandbox --disable-dev-shm-usage --disable-gpu --headless",
                 "preset": "desktop",
-                "extraHeaders": "{ \"Access-Control-Allow-Origin\": \"*\" }",
+                "maxWaitForLoad": 60000,
                 "onlyCategories": [
                     "performance",
                     "accessibility",

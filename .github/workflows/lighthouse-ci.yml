@@ -45,9 +45,12 @@ jobs:
       - name: Ensure jq is installed
         run: sudo apt-get update && sudo apt-get install -y jq
 
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI Collect
         id: lighthouse
-        run: npx @lhci/cli@0.14.x autorun --config=./lighthouserc.json
+        run: |
+          npx @lhci/cli@0.14.x collect --config=./lighthouserc.json
+          npx @lhci/cli@0.14.x assert --config=./lighthouserc.json
+          npx @lhci/cli@0.14.x upload --config=./lighthouserc.json
 
       - name: Parse Lighthouse Results
         id: parse
